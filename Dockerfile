@@ -1,5 +1,5 @@
-# Base image heroku cedar stack v14
-FROM heroku/cedar:14
+# Inherit from Heroku's python stack
+FROM heroku/python
 
 
 # Remove all system python interpreters
@@ -26,7 +26,7 @@ RUN curl -s -L https://www.python.org/ftp/python/2.7.10/Python-2.7.10.tgz > Pyth
 RUN tar zxvf Python-2.7.10.tgz
 RUN rm Python-2.7.10.tgz
 WORKDIR /app/.heroku/Python-2.7.10
-RUN ./configure --prefix=/app/.heroku/vendor/ --enable-shared
+RUN ./configure --prefix=/app/.heroku/vendor/ --enable-shared --enable-static
 RUN make install
 WORKDIR /app/.heroku
 RUN rm -rf Python-2.7.10
