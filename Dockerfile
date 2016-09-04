@@ -18,18 +18,18 @@ RUN mkdir /app/.heroku/vendor
 WORKDIR /app/.heroku
 
 
-# Install python 2.7.10
+# Install python 2.7.12
 ENV PATH /app/.heroku/vendor/bin:$PATH
 ENV LD_LIBRARY_PATH /app/.heroku/vendor/lib/
 ENV PYTHONPATH /app/.heroku/vendor/lib/python2.7/site-packages
-RUN curl -s -L https://www.python.org/ftp/python/2.7.10/Python-2.7.10.tgz > Python-2.7.10.tgz
-RUN tar zxvf Python-2.7.10.tgz
-RUN rm Python-2.7.10.tgz
-WORKDIR /app/.heroku/Python-2.7.10
+RUN curl -s -L https://www.python.org/ftp/python/2.7.12/Python-2.7.12.tgz > Python-2.7.12.tgz
+RUN tar zxvf Python-2.7.12.tgz
+RUN rm Python-2.7.12.tgz
+WORKDIR /app/.heroku/Python-2.7.12
 RUN ./configure --prefix=/app/.heroku/vendor/ --enable-shared --enable-static
 RUN make install
 WORKDIR /app/.heroku
-RUN rm -rf Python-2.7.10
+RUN rm -rf Python-2.7.12
 
 
 # Install latest setup-tools and pip
