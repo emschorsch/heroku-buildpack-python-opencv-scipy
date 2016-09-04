@@ -1,6 +1,7 @@
 # Base image heroku cedar stack v14
-FROM heroku/cedar:14
-
+#FROM heroku/cedar:14
+# Inherit from Heroku's python stack
+FROM heroku/python
 
 # Remove all system python interpreters
 RUN apt-get remove -y python2.7
@@ -22,14 +23,14 @@ WORKDIR /app/.heroku
 ENV PATH /app/.heroku/vendor/bin:$PATH
 ENV LD_LIBRARY_PATH /app/.heroku/vendor/lib/
 ENV PYTHONPATH /app/.heroku/vendor/lib/python2.7/site-packages
-RUN curl -s -L https://www.python.org/ftp/python/2.7.10/Python-2.7.10.tgz > Python-2.7.10.tgz
-RUN tar zxvf Python-2.7.10.tgz
-RUN rm Python-2.7.10.tgz
-WORKDIR /app/.heroku/Python-2.7.10
-RUN ./configure --prefix=/app/.heroku/vendor/ --enable-shared
+RUN curl -s -L https://www.python.org/ftp/python/2.7.12/Python-2.7.12.tgz > Python-2.7.12.tgz
+RUN tar zxvf Python-2.7.12.tgz
+RUN rm Python-2.7.12.tgz
+WORKDIR /app/.heroku/Python-2.7.12
+RUN ./configure --prefix=/app/.heroku/vendor/ --enable-shared --enable-static
 RUN make install
 WORKDIR /app/.heroku
-RUN rm -rf Python-2.7.10
+RUN rm -rf Python-2.7.12
 
 
 # Install latest setup-tools and pip
@@ -72,6 +73,7 @@ RUN unzip opencv-2.4.11.zip
 RUN rm opencv-2.4.11.zip
 WORKDIR /app/.heroku/opencv-2.4.11
 RUN cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=/app/.heroku/vendor -D BUILD_DOCS=OFF -D BUILD_TESTS=OFF -D BUILD_PERF_TESTS=OFF -D BUILD_EXAMPLES=OFF -D BUILD_opencv_python=ON .
+#PYTHON_EXECUTABLE=/usr/local/bin/python -D PYTHONG_INCLUDE_DIR=/usr/local/include/python2.7 -D PYTHON_LIBRARY=/usr/local/lib/libpython2.7.so -D PYTHON_PACKAGES_PATH=/usr/local/lib/python2.7/site-packages -D PYTHON_NUMPY_INCLUDE_DIR=/usr/local/lib/python2.7/site-packages/numpy/core/include
 RUN make install
 WORKDIR /app/.heroku
 RUN rm -rf opencv-2.4.11
