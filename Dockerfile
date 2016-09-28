@@ -8,7 +8,6 @@ RUN mkdir /app/.heroku
 RUN mkdir /app/.heroku/vendor
 ENV LD_LIBRARY_PATH /app/.heroku/vendor/lib/
 
-
 # Install ATLAS with LAPACK and BLAS
 WORKDIR /app/.heroku
 RUN apt-get update
@@ -38,6 +37,15 @@ RUN apt-get remove -y python2.7-minimal
 RUN apt-get remove -y python3.4-minimal
 RUN apt-get remove -y libpython2.7-minimal
 RUN apt-get remove -y libpython3.4-minimal
+
+# Install and add multiverse
+RUN echo 'deb http://archive.ubuntu.com/ubuntu trusty multiverse' >> /etc/apt/sources.list
+RUN apt-get update
+
+# remove ffmpeg
+RUN apt-get remove -y ffmpeg x264 libx264-dev
+# install ffmpeg requirements
+RUN apt-get install -y libavcodec-dev libavformat-dev libwscale-dev
 
 RUN curl -s -L http://kent.dl.sourceforge.net/project/tcl/Tcl/8.6.6/tcl8.6.6-src.tar.gz > tcl8.6.6-src.tar.gz
 RUN tar -xvf tcl8.6.6-src.tar.gz
